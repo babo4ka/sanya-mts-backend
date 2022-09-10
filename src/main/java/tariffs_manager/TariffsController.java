@@ -14,6 +14,7 @@ import tariffs_manager.repositories.TariffsRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -27,6 +28,7 @@ public class TariffsController {
     private ExtraRepository extraRepository;
     @Autowired
     private ServiceRepository serviceRepository;
+
 
 
 
@@ -55,8 +57,15 @@ public class TariffsController {
             @RequestParam(value = "equip", required = false) String equip,
             @RequestParam(value = "extra", required = false) String extra
     ){
+        final Iterator<Tariff> tIt = tariffsRepository.findAll().iterator();
+        Tariff last = tIt.next();
+
+        while(tIt.hasNext()){
+            last = tIt.next();
+        }
+
         Tariff tariff = new Tariff();
-        tariff.setId((int) (tariffsRepository.count() + 1));
+        tariff.setId(last==null?1:(last.getId()+1));
         tariff.setName(name);
         tariff.setTags(tags);
         tariff.setType(type);
