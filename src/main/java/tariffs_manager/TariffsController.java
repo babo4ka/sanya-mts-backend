@@ -2,6 +2,7 @@ package tariffs_manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tariffs_manager.entities.Equipment;
 import tariffs_manager.entities.Extra;
@@ -30,22 +31,29 @@ public class TariffsController {
     private ServiceRepository serviceRepository;
 
 
+    @RequestMapping(path= "/alltariffsdemo")
+    public String getAllTariffsDemo(Model model){
+        List<Tariff> tariffs = new ArrayList<>();
+        tariffsRepository.findAll().forEach(tariffs::add);
+        model.addAttribute("tariffs", tariffs);
 
+        return "alltariffs";
+    }
 
-    @GetMapping(path= "/alltariffs")
+    @RequestMapping(path= "/alltariffs")
     public @ResponseBody Iterable<TariffResponseBody> getAllTariffs(){
         List<Tariff> tariffs = new ArrayList<>();
         tariffsRepository.findAll().forEach(tariffs::add);
-
         List<TariffResponseBody> bodies = new ArrayList<>();
         for(Tariff t:tariffs){
             bodies.add(setTariffBody(t));
         }
-
         return bodies;
     }
 
+
 //    http://localhost:8080/add?name=тариф&tags=wifi,tv&type=ррррр&price=5000&short=короткий&services=1,2&extra=2,3
+    private Integer lastId = -1;
     @RequestMapping(path = "/add", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody TariffResponseBody addNewTariff(
             @RequestParam(value = "name")String name,
@@ -57,15 +65,20 @@ public class TariffsController {
             @RequestParam(value = "equip", required = false) String equip,
             @RequestParam(value = "extra", required = false) String extra
     ){
-        final Iterator<Tariff> tIt = tariffsRepository.findAll().iterator();
-        Tariff last = tIt.next();
+        if(lastId == -1){
+            final Iterator<Tariff> tIt = tariffsRepository.findAll().iterator();
+            Tariff last = tIt.next();
 
-        while(tIt.hasNext()){
-            last = tIt.next();
+            while(tIt.hasNext()){
+                last = tIt.next();
+            }
+
+            lastId = last.getId();
         }
 
+
         Tariff tariff = new Tariff();
-        tariff.setId(last==null?1:(last.getId()+1));
+        tariff.setId(++lastId);
         tariff.setName(name);
         tariff.setTags(tags);
         tariff.setType(type);
@@ -76,6 +89,26 @@ public class TariffsController {
         tariff.setExtra(extra);
 
         return setTariffBody(tariffsRepository.save(tariff));
+    }
+
+    @RequestMapping(path = "/adddemo")
+    public String addNewTariffDemo(
+            @ModelAttribute Tariff tariff1,
+            Model model){
+        model.addAttribute("tariff", tariff1);
+        if(lastId == -1){
+            final Iterator<Tariff> tIt = tariffsRepository.findAll().iterator();
+            Tariff last = tIt.next();
+
+            while(tIt.hasNext()){
+                last = tIt.next();
+            }
+
+            lastId = last.getId();
+        }
+        tariff1.setId(++lastId);
+        tariffsRepository.save(tariff1);
+        return "addtariff";
     }
 
     private TariffResponseBody setTariffBody(Tariff tariff){

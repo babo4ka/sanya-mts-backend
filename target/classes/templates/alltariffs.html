@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>tariffs list</h1>
+<table>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>tags</th>
+        <th>type</th>
+        <th>price</th>
+        <th>services</th>
+        <th>equip</th>
+        <th>extra</th>
+        <th>short</th>
+    </tr>
+    <tr th:each="t: ${tariffs}">
+        <th th:text="${t.id}"></th>
+        <th th:text="${t.name}"></th>
+        <th th:text="${t.tags}"></th>
+        <th th:text="${t.type}"></th>
+        <th th:text="${t.price}"></th>
+        <th th:text="${t.services}"></th>
+        <th th:text="${t.equip}"></th>
+        <th th:text="${t.extra}"></th>
+        <th th:text="${t.short}"></th>
+    </tr>
+</table>
+</body>
+</html>
