@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>add tariff</h1>
-    <form action="#" method="post" th:action="@{/adddemo}" th:object="${tariff}">
+    <form action="#" method="post" th:action="@{/addtariff}" th:object="${tariff}">
         <input type="text" th:field="*{name}" />
         <input type="text" th:field="*{tags}" />
         <input type="text" th:field="*{type}" />
@@ -14,7 +14,7 @@
         <input type="text" th:field="*{services}" />
         <input type="text" th:field="*{equip}" />
         <input type="text" th:field="*{extra}" />
-        <input type="text" th:field="*{short}" />
+        <input type="text" th:field="*{Short}" />
         <input type="submit" value="submit" />
     </form>
 </body>

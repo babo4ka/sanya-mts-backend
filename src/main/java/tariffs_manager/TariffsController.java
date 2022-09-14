@@ -91,11 +91,13 @@ public class TariffsController {
         return setTariffBody(tariffsRepository.save(tariff));
     }
 
-    @RequestMapping(path = "/adddemo")
+    @RequestMapping(path = "/addtariffdemo")
     public String addNewTariffDemo(
-            @ModelAttribute Tariff tariff1,
-            Model model){
-        model.addAttribute("tariff", tariff1);
+            @ModelAttribute Tariff tariff,
+            Model model)
+    {
+        model.addAttribute("tariff", tariff);
+
         if(lastId == -1){
             final Iterator<Tariff> tIt = tariffsRepository.findAll().iterator();
             Tariff last = tIt.next();
@@ -106,8 +108,10 @@ public class TariffsController {
 
             lastId = last.getId();
         }
-        tariff1.setId(++lastId);
-        tariffsRepository.save(tariff1);
+
+        tariff.setId(++lastId);
+
+        tariffsRepository.save(tariff);
         return "addtariff";
     }
 

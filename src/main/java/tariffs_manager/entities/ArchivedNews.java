@@ -7,8 +7,8 @@ import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
-@Table(name="news")
-public class News {
+@Table(name = "archived_news")
+public class ArchivedNews {
 
     @Id
     private Integer id;
@@ -19,16 +19,10 @@ public class News {
 
     @Column(name = "image")
     private String filePath;
+
     private String related_tariffs;
+
     private Date date;
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 
     public Integer getId() {
         return id;
@@ -69,5 +63,4 @@ public class News {
     public void setDate(Date date) {
         this.date = date;
     }
-
 }
