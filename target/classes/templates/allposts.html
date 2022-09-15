@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div>hello</div>
+    <h1>all news</h1>
+    <table>
+        <tr>
+            <th>article</th>
+            <th>text</th>
+            <th>date</th>
+            <th>related_tariffs</th>
+            <th>image</th>
+        </tr>
+        <tr th:each="p: ${posts}">
+            <th th:text="${p.article}"></th>
+            <th th:text="${p.text}"></th>
+            <th th:text="${p.date}"></th>
+            <th th:text="${p.related_tariffs}"></th>
+            <th><img th:src="@{C:\Users\evgeh\OneDrive\Desktop\кфу\sanya-mts-api\uploads\dsad_asd_авыфаыфафы19.любимка2.png}"/></th>
+        </tr>
+    </table>
 </body>
 </html>

@@ -5,7 +5,7 @@
       <option name="myValues">
         <value>
           <list size="1">
-            <item index="0" class="java.lang.String" itemvalue="th:field" />
+            <item index="0" class="java.lang.String" itemvalue="th:text" />
           </list>
         </value>
       </option>
