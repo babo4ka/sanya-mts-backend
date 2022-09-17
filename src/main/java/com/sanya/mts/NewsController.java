@@ -4,19 +4,15 @@ import com.sanya.mts.tariffs_manager.entities.News;
 import com.sanya.mts.tariffs_manager.repositories.ArchivedNewsRepository;
 import com.sanya.mts.tariffs_manager.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Iterator;
-import java.util.UUID;
 
 @Controller
 public class NewsController {
@@ -28,8 +24,6 @@ public class NewsController {
 
     private Integer lastId = -1;
 
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @RequestMapping(path="/getallposts")
     public String showNews(Model model){
@@ -37,8 +31,13 @@ public class NewsController {
         return "allposts";
     }
 
+    @RequestMapping(path="/postsbody")
+    public @ResponseBody Iterable<News> getBodies(){
+        return newsRepository.findAll();
+    }
+
     @RequestMapping(path = "/createpostpage")
-    public String createPostPage(Model model){
+    public String createPostPage(Model model) throws IOException {
         model.addAttribute("post", new News());
         return "createpost";
     }
@@ -46,8 +45,7 @@ public class NewsController {
     @RequestMapping(path="/createpostdemo")
     public String createPostDemo(
             @ModelAttribute News post,
-            Model model,
-            @RequestParam(value = "file")MultipartFile file
+            Model model
             ) throws IOException {
 
         model.addAttribute("post", post);
@@ -71,23 +69,9 @@ public class NewsController {
         java.util.Date currentDate = new java.util.Date();
         post.setDate(new Date(currentDate.getTime()));
 
-        if(file!=null){
-            File uploadDir = new File(uploadPath);
-
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-
-            String resultFileName = post.getArticle().replace(' ', '_') + post.getId() + "." + file.getOriginalFilename();
-
-            System.out.println(new File("").getAbsolutePath() + "/" + uploadPath + resultFileName);
-            file.transferTo(new File(new File("").getAbsolutePath() + "/" + uploadPath + resultFileName));
-
-            post.setFilePath(resultFileName);
-        }
-
         newsRepository.save(post);
 
         return "allposts";
     }
+
 }

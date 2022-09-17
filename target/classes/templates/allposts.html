@@ -12,14 +12,12 @@
             <th>text</th>
             <th>date</th>
             <th>related_tariffs</th>
-            <th>image</th>
         </tr>
         <tr th:each="p: ${posts}">
             <th th:text="${p.article}"></th>
             <th th:text="${p.text}"></th>
             <th th:text="${p.date}"></th>
             <th th:text="${p.related_tariffs}"></th>
-            <th><img th:src="@{C:\Users\evgeh\OneDrive\Desktop\кфу\sanya-mts-api\uploads\dsad_asd_авыфаыфафы19.любимка2.png}"/></th>
         </tr>
     </table>
 </body>

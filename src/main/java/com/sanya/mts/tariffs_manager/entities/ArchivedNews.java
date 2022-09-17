@@ -17,8 +17,8 @@ public class ArchivedNews {
 
     private String text;
 
-    @Column(name = "image")
-    private String filePath;
+//    @Column(name = "image")
+//    private String filePath;
 
     private String related_tariffs;
 
@@ -47,6 +47,14 @@ public class ArchivedNews {
     public void setText(String text) {
         this.text = text;
     }
+
+//    public String getFilePath() {
+//        return filePath;
+//    }
+//
+//    public void setFilePath(String filePath) {
+//        this.filePath = filePath;
+//    }
 
     public String getRelated_tariffs() {
         return related_tariffs;

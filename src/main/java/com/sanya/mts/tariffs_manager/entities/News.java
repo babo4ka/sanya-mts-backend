@@ -17,18 +17,18 @@ public class News {
 
     private String text;
 
-    @Column(name = "image")
-    private String filePath;
+//    @Column(name = "image")
+//    private String filePath;
     private String related_tariffs;
     private Date date;
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+//    public String getFilePath() {
+//        return filePath;
+//    }
+//
+//    public void setFilePath(String filePath) {
+//        this.filePath = filePath;
+//    }
 
     public Integer getId() {
         return id;
