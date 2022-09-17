@@ -17,6 +17,7 @@
         <th>equip</th>
         <th>extra</th>
         <th>short</th>
+        <ht>удалить</ht>
     </tr>
     <tr th:each="t: ${tariffs}">
         <th th:text="${t.id}"></th>
@@ -28,6 +29,7 @@
         <th th:text="${t.equip}"></th>
         <th th:text="${t.extra}"></th>
         <th th:text="${t.short}"></th>
+        <th><a th:href="@{'/removetariff?tariffId=' + ${t.id}}">удалить</a></th>
     </tr>
 </table>
 </body>

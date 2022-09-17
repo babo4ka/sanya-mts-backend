@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>create post</h1>
-<form action="#" method="post" th:action="@{/createpostdemo}" th:object="${post}">
+<form action="#" method="post" th:action="@{/createpost}" th:object="${post}">
     <input type="text" th:field="*{article}" />
     <input type="text" th:field="*{text}"/>
     <input type="text" th:field="*{related_tariffs}" />

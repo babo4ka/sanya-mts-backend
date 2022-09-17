@@ -59,7 +59,7 @@ public class NewsController {
 //    }
 
     @RequestMapping(path="/createpost")
-    public News createPost(
+    public @ResponseBody News createPost(
             @ModelAttribute News post,
             Model model
             ) throws IOException {
@@ -90,7 +90,7 @@ public class NewsController {
     }
 
     @RequestMapping(path="/removepost")
-    public String removePost(
+    public @ResponseBody String removePost(
             @RequestParam(value = "path")String path,
             @RequestParam(value = "postId")Integer id
     ){
@@ -102,11 +102,11 @@ public class NewsController {
             archivedNewsRepository.delete(del);
         }
 
-        return "allposts";
+        return "Пост удалён";
     }
 
     @RequestMapping(path="/archivepost")
-    public News archivePost(
+    public @ResponseBody News archivePost(
             @RequestParam(value = "postId")Integer id
     ){
         News arch = newsRepository.findById(id).get();
@@ -116,7 +116,7 @@ public class NewsController {
     }
 
     @RequestMapping(path="/unarchivepost")
-    public ArchivedNews unarchivePost(
+    public @ResponseBody ArchivedNews unarchivePost(
             @RequestParam(value="postId")Integer id
             ){
         ArchivedNews unarh = archivedNewsRepository.findById(id).get();

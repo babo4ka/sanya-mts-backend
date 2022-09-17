@@ -31,6 +31,8 @@ public class TariffsController {
     @Autowired
     private ServiceRepository serviceRepository;
 
+    private Integer lastId = -1;
+
 
     @RequestMapping(path= "/alltariffsdemo")
     public String getAllTariffsDemo(Model model){
@@ -53,9 +55,7 @@ public class TariffsController {
     }
 
 
-//    http://localhost:8080/add?name=тариф&tags=wifi,tv&type=ррррр&price=5000&short=короткий&services=1,2&extra=2,3
-    private Integer lastId = -1;
-    @RequestMapping(path = "/add", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(path = "/addtariffdemo", method = {RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody TariffResponseBody addNewTariff(
             @RequestParam(value = "name")String name,
             @RequestParam(value="tags") String tags,
@@ -98,8 +98,9 @@ public class TariffsController {
         return "addtariff";
     }
 
-    @RequestMapping(path = "/addtariffdemo", method = {RequestMethod.POST, RequestMethod.GET})
-    public String addNewTariffDemo(
+
+    @RequestMapping(path = "/addtariff", method = {RequestMethod.POST, RequestMethod.GET})
+    public @ResponseBody TariffResponseBody addNewTariffDemo(
             @ModelAttribute Tariff tariff,
             Model model)
     {
@@ -118,7 +119,17 @@ public class TariffsController {
 
         tariff.setId(++lastId);
         tariffsRepository.save(tariff);
-        return "alltariffs";
+        return setTariffBody(tariff);
+    }
+
+
+    @RequestMapping(path="/removetariff")
+    public @ResponseBody TariffResponseBody removeTariff(
+            @RequestParam(value="tariffId")Integer id
+    ){
+        Tariff del = tariffsRepository.findById(id).get();
+        tariffsRepository.delete(del);
+        return setTariffBody(del);
     }
 
     private TariffResponseBody setTariffBody(Tariff tariff){
