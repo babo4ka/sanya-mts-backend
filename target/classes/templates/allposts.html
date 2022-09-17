@@ -12,12 +12,33 @@
             <th>text</th>
             <th>date</th>
             <th>related_tariffs</th>
+            <th>удалить</th>
         </tr>
         <tr th:each="p: ${posts}">
             <th th:text="${p.article}"></th>
             <th th:text="${p.text}"></th>
             <th th:text="${p.date}"></th>
             <th th:text="${p.related_tariffs}"></th>
+            <th><a th:href="@{'/removepost?path=actual&postId=' + ${p.id}}">Удалить</a></th>
+            <th><a th:href="@{'/archivepost?postId=' + ${p.id}}">в архив</a></th>
+        </tr>
+    </table>
+    <h1>archived</h1>
+    <table>
+        <tr>
+            <th>article</th>
+            <th>text</th>
+            <th>date</th>
+            <th>related_tariffs</th>
+            <th>удалить</th>
+        </tr>
+        <tr th:each="p: ${archived}">
+            <th th:text="${p.article}"></th>
+            <th th:text="${p.text}"></th>
+            <th th:text="${p.date}"></th>
+            <th th:text="${p.related_tariffs}"></th>
+            <th><a th:href="@{'/removepost?path=archived&postId=' + ${p.id}}">Удалить</a></th>
+            <th><a th:href="@{'/unarchivepost?postId=' + ${p.id}}">убрать из архива</a></th>
         </tr>
     </table>
 </body>

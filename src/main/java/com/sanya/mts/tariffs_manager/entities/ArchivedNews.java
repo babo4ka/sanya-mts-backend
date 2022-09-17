@@ -24,6 +24,19 @@ public class ArchivedNews {
 
     private Date date;
 
+
+    public ArchivedNews() {
+    }
+
+
+    public ArchivedNews(Integer id, String article, String text, String related_tariffs, Date date) {
+        this.id = id;
+        this.article = article;
+        this.text = text;
+        this.related_tariffs = related_tariffs;
+        this.date = date;
+    }
+
     public Integer getId() {
         return id;
     }

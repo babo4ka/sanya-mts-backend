@@ -22,7 +22,20 @@ public class News {
     private String related_tariffs;
     private Date date;
 
-//    public String getFilePath() {
+    public News(Integer id, String article, String text, String related_tariffs, Date date) {
+        this.id = id;
+        this.article = article;
+        this.text = text;
+        this.related_tariffs = related_tariffs;
+        this.date = date;
+    }
+
+    public News() {
+    }
+
+
+
+    //    public String getFilePath() {
 //        return filePath;
 //    }
 //
