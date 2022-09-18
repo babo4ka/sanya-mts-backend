@@ -2,10 +2,9 @@ package com.sanya.mts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses = TariffsController.class)
+//@ComponentScan(basePackageClasses = TariffsController.class)
 public class Application {
 
     public static void main(String[] args) {
