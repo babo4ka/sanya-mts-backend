@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="news")
@@ -20,9 +20,10 @@ public class News {
 //    @Column(name = "image")
 //    private String filePath;
     private String related_tariffs;
-    private Date date;
+    @Column(name="post_date")
+    private Timestamp date;
 
-    public News(Integer id, String article, String text, String related_tariffs, Date date) {
+    public News(Integer id, String article, String text, String related_tariffs, Timestamp date) {
         this.id = id;
         this.article = article;
         this.text = text;
@@ -75,11 +76,11 @@ public class News {
         this.related_tariffs = related_tariffs;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

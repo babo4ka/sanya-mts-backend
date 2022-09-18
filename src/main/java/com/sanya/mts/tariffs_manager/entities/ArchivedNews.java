@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "archived_news")
@@ -22,14 +23,15 @@ public class ArchivedNews {
 
     private String related_tariffs;
 
-    private Date date;
+    @Column(name="post_date")
+    private Timestamp date;
 
 
     public ArchivedNews() {
     }
 
 
-    public ArchivedNews(Integer id, String article, String text, String related_tariffs, Date date) {
+    public ArchivedNews(Integer id, String article, String text, String related_tariffs, Timestamp date) {
         this.id = id;
         this.article = article;
         this.text = text;
@@ -77,11 +79,11 @@ public class ArchivedNews {
         this.related_tariffs = related_tariffs;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Iterator;
 
 @Controller
@@ -82,7 +83,7 @@ public class NewsController {
 
         post.setId(++lastId);
         java.util.Date currentDate = new java.util.Date();
-        post.setDate(new Date(currentDate.getTime()));
+        post.setDate(new Timestamp(currentDate.getTime()));
 
         newsRepository.save(post);
 
