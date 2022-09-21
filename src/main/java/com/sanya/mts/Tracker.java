@@ -1,4 +1,4 @@
-package com.sanya.mts.tariffs_manager;
+package com.sanya.mts;
 
 import com.sanya.mts.tariffs_manager.entities.TrafficTracker;
 import com.sanya.mts.tariffs_manager.repositories.TrafficTrackerRepository;
@@ -49,12 +49,11 @@ public class Tracker {
 
 
     @RequestMapping(path="/visitsinrange")
-    public @ResponseBody Map<String, Double> getVisitsInRange(
+    public @ResponseBody IStats getVisitsInRange(
             @RequestParam(value="start") long start,
             @RequestParam(value="end") long end)
     {
         if(start > end) throw new IllegalArgumentException("start должен быть меньше, чем end");
-        int visits = 0;
         Date startDate = new Date(start);
         Date endDate = new Date(end);
 
@@ -66,32 +65,33 @@ public class Tracker {
         endDate.setMinutes(59);
         endDate.setSeconds(59);
 
-        Iterator<TrafficTracker> iterator = trafficTrackerRepository.findAll().iterator();
 
-        TrafficTracker t;
+        int visits = trafficTrackerRepository.findByDateBetween(
+                new Timestamp(startDate.getTime()),
+                new Timestamp(endDate.getTime())
+        ).size();
 
-        while(iterator.hasNext()){
-            t = iterator.next();
-
-            if(t.getDate().getTime() >= startDate.getTime() &&
-            t.getDate().getTime() <= endDate.getTime())visits++;
-        }
-
-        int days = (int) ((endDate.getTime() - startDate.getTime())) / (24 * 60 * 60 * 1000);
+        int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
 
         double avgVisits = days==0?visits:(double) visits / (double) days;
 
-        Map<String, Double> stats = new HashMap<>();
-        stats.put("Visits", (double)visits);
-        stats.put("Average visits per day", avgVisits);
+        IStats stats = new IStats() {
+            @Override
+            public int getVisits() {
+                return visits;
+            }
+
+            @Override
+            public double getAverageVisits() {
+                return avgVisits;
+            }
+        };
 
         return stats;
     }
 
     @RequestMapping(path="/todayvisits")
     public @ResponseBody int getTodayVisits(){
-        int visits = 0;
-
         Date startToday = new Date();
         startToday.setHours(0);
         startToday.setMinutes(0);
@@ -101,33 +101,34 @@ public class Tracker {
         endToday.setMinutes(59);
         endToday.setSeconds(59);
 
-        Iterator<TrafficTracker> iterator = trafficTrackerRepository.findAll().iterator();
-
-        TrafficTracker t;
-
-        while(iterator.hasNext()){
-            t = iterator.next();
-
-            if(t.getDate().getTime() >= startToday.getTime() &&
-                    t.getDate().getTime() <= endToday.getTime())visits++;
-        }
-
-        return visits;
+        return trafficTrackerRepository.findByDateBetween(
+                new Timestamp(startToday.getTime()),
+                new Timestamp(endToday.getTime()))
+                .size();
     }
 
     @RequestMapping(path="totalvisits")
-    public @ResponseBody Map<String, Double> totalVisists(){
+    public @ResponseBody IStats totalVisists(){
         List<TrafficTracker> visits = new ArrayList<>();
         trafficTrackerRepository.findAll().forEach(visits::add);
 
         Date firstDay = visits.get(0).getDate();
         Date lastDay = visits.get(visits.size()-1).getDate();
 
-        int days = (int) ((lastDay.getTime() - firstDay.getTime())) / (24 * 60 * 60 * 1000);
+        int days = (int) ((lastDay.getTime() - firstDay.getTime()) / (24 * 60 * 60 * 1000));
         double avgVisits = days==0?visits.size():(double) visits.size() / (double) days;
-        Map<String, Double> stats = new HashMap<>();
-        stats.put("Visits", (double) visits.size());
-        stats.put("Average visits per day", avgVisits);
+
+        IStats stats = new IStats() {
+            @Override
+            public int getVisits() {
+                return visits.size();
+            }
+
+            @Override
+            public double getAverageVisits() {
+                return avgVisits;
+            }
+        };
 
         return stats;
     }
