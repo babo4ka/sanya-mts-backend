@@ -7,13 +7,9 @@ import com.sanya.mts.tariffs_manager.repositories.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
@@ -63,7 +59,7 @@ public class NewsController {
     public @ResponseBody News createPost(
             @ModelAttribute News post,
             Model model
-            ) throws IOException {
+            ){
         model.addAttribute("post", post);
         if(lastId == -1){
             final Iterator<News> nIt = newsRepository.findAll().iterator();
@@ -126,5 +122,17 @@ public class NewsController {
         return unarh;
     }
 
+    @RequestMapping(path="/modifypost/{id}")
+    public @ResponseBody News modifyPost(
+            @PathVariable("id")Integer id,
+            Model model,
+            @ModelAttribute News post
+    ){
+        model.addAttribute("post", post);
+        newsRepository.deleteById(id);
+        post.setId(id);
+
+        return newsRepository.save(post);
+    }
 
 }

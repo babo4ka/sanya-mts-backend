@@ -5,8 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<h1>modify post</h1>
-<form action="#" method="post" th:action="@{/createpost}" th:object="${post}">
+<h1>create post</h1>
+<form action="#" method="post" th:action="@{/modifypost}" th:object="${post}">
+    <input type="number">
     <input type="text" th:field="*{article}" />
     <input type="text" th:field="*{text}"/>
     <input type="text" th:field="*{related_tariffs}" />

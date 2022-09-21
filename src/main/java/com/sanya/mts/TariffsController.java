@@ -132,6 +132,18 @@ public class TariffsController {
         return setTariffBody(del);
     }
 
+    @RequestMapping(path="/modifytariff/{id}")
+    public @ResponseBody TariffResponseBody modifyTariff(
+            @PathVariable("id")Integer id,
+            @ModelAttribute Tariff tariff,
+            Model model
+    ){
+        model.addAttribute("tariff", tariff);
+        tariffsRepository.deleteById(id);
+        tariff.setId(id);
+        return setTariffBody(tariffsRepository.save(tariff));
+    }
+
     private TariffResponseBody setTariffBody(Tariff tariff){
         TariffResponseBody.Builder builder = new TariffResponseBody.Builder(tariff.getId(), tariff.getName(), tariff.getTags().split(","),
                 tariff.getType(), tariff.getPrice(), tariff.getShort());
