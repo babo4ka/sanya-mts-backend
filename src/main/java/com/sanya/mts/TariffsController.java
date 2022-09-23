@@ -1,5 +1,7 @@
 package com.sanya.mts;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class TariffsController {
 
     @Autowired
@@ -44,13 +47,17 @@ public class TariffsController {
     }
 
     @RequestMapping(path= "/alltariffs")
-    public @ResponseBody Iterable<TariffResponseBody> getAllTariffs(){
+    public @ResponseBody Iterable<TariffResponseBody> getAllTariffs() {
         List<Tariff> tariffs = new ArrayList<>();
         tariffsRepository.findAll().forEach(tariffs::add);
         List<TariffResponseBody> bodies = new ArrayList<>();
+
+
         for(Tariff t:tariffs){
             bodies.add(setTariffBody(t));
         }
+
+
         return bodies;
     }
 
