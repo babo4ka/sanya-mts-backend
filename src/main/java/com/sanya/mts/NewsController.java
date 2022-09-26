@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 
 @Controller
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.0.103:3000"})
 public class NewsController {
 
     @Autowired
@@ -49,11 +50,11 @@ public class NewsController {
         return archivedNewsRepository.findAll();
     }
 
-//    @RequestMapping(path = "/createpostpage")
-//    public String createPostPage(Model model) throws IOException {
-//        model.addAttribute("post", new News());
-//        return "createpost";
-//    }
+    @RequestMapping(path = "/createpostpage")
+    public String createPostPage(Model model) throws IOException {
+        model.addAttribute("post", new News());
+        return "createpost";
+    }
 
     @RequestMapping(path="/createpost")
     public @ResponseBody News createPost(
